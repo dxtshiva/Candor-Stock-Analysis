@@ -1,0 +1,48 @@
+{%extends "base.html" %} {%block contents%}
+<div class="live-data">
+  <div class="indexes">
+    <h4>Nifty 50</h4>
+    <div class="changes-values">
+      <p id="nifty50val"></p>
+      <p id="nifty50chng"></p>
+    </div>
+  </div>
+  <div class="indexes">
+    <h4>Nifty Bank</h4>
+    <div class="changes-values">
+      <p id="niftybankval"></p>
+      <p id="niftybankchng"></p>
+    </div>
+  </div>
+  <div class="indexes">
+    <h4>Nifty MidCap 50</h4>
+    <div class="changes-values">
+      <p id="niftymidval"></p>
+      <p id="niftymidchng"></p>
+    </div>
+  </div>
+  <div class="indexes">
+    <h4>Nifty IT</h4>
+    <div class="changes-values">
+      <p id="niftyitval"></p>
+      <p id="niftyitchng"></p>
+    </div>
+  </div>
+  <div class="indexes">
+    <h4>Nifty Fin Serv </h4>
+    <div class="changes-values">
+      <p id="niftyfinval"></p>
+      <p id="niftyfinchng"></p>
+    </div>
+  </div>
+</div>
+<div>
+  <button class="updateButton" id="indbtn" style="display: none">
+    Refresh
+  </button>
+</div>
+
+
+{%endblock%} {%block script%}
+<script src="/static/index.js"></script>
+{%endblock%}
