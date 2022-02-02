@@ -17,3 +17,9 @@ flask
 
 ## R libraries used
 nse2r
+
+# Steps to start the project
+### 1. Install python and its libraries mentioned above
+### 2. Install R and its libraries mentioned above
+### 3. To start web interface run ProjWeb.py and open the deployment server url in the browser
+### 4. To start the GUI interface simply run the GUI.py file
