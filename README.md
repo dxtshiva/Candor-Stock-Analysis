@@ -25,14 +25,14 @@ nse2r
 ### 3. To start the web interface run ProjWeb.py and open the deployment server URL in the browser
 ### 4. To start the GUI interface run the GUI.py file.
 <br>
-### The search page:<br>
+ The search page:<br>
 <p align="center">
 <img src = "./Screenshot 2022-06-03 110230.jpg"></p>
 <br>
-### The prediction page:<br>
+ The prediction page:<br>
 <p align="center">
 <img src = "./Screenshot 2022-06-03 105312.jpg"></p>
 <br>
-### The Tkinter GUI:<br>
+ The Tkinter GUI:<br>
 <p align="center">
 <img src = "./Screenshot 2022-06-03 110645.jpg"></p>
