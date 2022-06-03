@@ -23,7 +23,16 @@ nse2r
 ### 1. Install python and its libraries mentioned above (to install the python library use pip command: pip install <library_name>)
 ### 2. Install R and its libraries mentioned above (to install the R packages use install.packages(): install.packages("<package_name>")
 ### 3. To start the web interface run ProjWeb.py and open the deployment server URL in the browser
-### 4. To start the GUI interface simply run the GUI.py file.
-
+### 4. To start the GUI interface run the GUI.py file.
+<br>
+### The search page:<br>
 <p align="center">
-<img src = "./Screenshot 2022-06-03 105312.jpg">
+<img src = "./Screenshot 2022-06-03 110230.jpg"></p>
+<br>
+### The prediction page:<br>
+<p align="center">
+<img src = "./Screenshot 2022-06-03 105312.jpg"></p>
+<br>
+### The Tkinter GUI:<br>
+<p align="center">
+<img src = "./Screenshot 2022-06-03 110645.jpg"></p>
