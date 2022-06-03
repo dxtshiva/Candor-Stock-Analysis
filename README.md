@@ -6,6 +6,7 @@ The given project is an attempt to design a system that predicts stock price usi
 
 ### GUI.py is the file that has a GUI interface designed using Tkinter.
 
+### ProjTest is the research file that has a comaparative study of ARIMA, LSTM and MLP. It uses the same stock for all three models over the same period of time for same train and test data and compares the accuracy of all three models.
 
 ## Python Libraries used:
 ##### nsepy
