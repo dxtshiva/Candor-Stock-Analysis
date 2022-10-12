@@ -13,7 +13,7 @@ The given project is an attempt to design a system that predicts stock price usi
 ##### nsetools
 ##### statsmodels
 ##### bokeh
-##### rpy2
+##### rpy2 (version 3.4.4)
 ##### flask
 ##### ttkwidgets
 
