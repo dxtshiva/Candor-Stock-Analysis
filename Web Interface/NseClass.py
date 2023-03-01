@@ -55,7 +55,7 @@ class Nse:
         data.drop(list(data.columns[2:]),axis='columns',inplace=True)
         if symbol=='':
             return data
-        return(data['Symbol'])
+        return(data.loc(data.))
 nse = Nse()
 
 # data= nse.is_valid_index("banknifty")
