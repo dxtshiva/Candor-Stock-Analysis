@@ -55,9 +55,10 @@ class Nse:
         data.drop(list(data.columns[2:]),axis='columns',inplace=True)
         if symbol=='':
             return data
-        return(data.loc(data.))
+        # return(data[data.SYMBOL.isin([symbol.upper()])])
+        return data[data['SYMBOL'].str.contains(symbol.upper())]
 nse = Nse()
 
 # data= nse.is_valid_index("banknifty")
 # print(data)
-print(nse.nse_stock_code("s"))
+print(nse.nse_stock_code("sbi"))
