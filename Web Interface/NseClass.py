@@ -1,6 +1,7 @@
 import requests
 import pandas as pd
 import json
+
 class Nse:
 
     headers  = {'user-agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36',
@@ -89,19 +90,39 @@ class Nse:
                          axis = 'columns',inplace=True)
         return data
 
-    def nse_index_quote(self, symbol):
+    def nse_stock_quote(self, symbol):
         if(self.is_valid_stock(symbol)):
-            url='https://www1.nseindia.com/live_market/dynaContent/live_watch/get_quote/GetQuote.jsp?'
+
+            url='https://query1.finance.yahoo.com/v8/finance/chart/'+str(symbol).upper()+'.NS'
+            response = requests.get(url,headers = self.headers).json()
+            lastPrice =  response['chart']['result'][0]['meta']['regularMarketPrice']
+            pClose = response['chart']['result'][0]['meta']['previousClose']
+            url1='https://www1.nseindia.com/live_market/dynaContent/live_watch/get_quote/GetQuote.jsp?'
             payloads= {"symbol":str(symbol).upper(),"series":"EQ"}
-            data = requests.get(url,params = payloads,headers = self.headers).text
+            data = requests.get(url1,params = payloads,headers = self.headers).text
             index  = data.find('"data":')
             index1  = data.find(',"optLink"')
-            data = pd.DataFrame(json.loads(data[index+len('"data":'):index1]))
-            return data[['symbol','companyName','lastPrice','pChange','dayHigh','dayLow','high52','low52','basePrice','open']]
+            response1 = pd.DataFrame(json.loads(data[index+len('"data":'):index1]))
+            data = pd.DataFrame({
+                'Symbol': response1['symbol'],
+                'comapnyName': response1['companyName'],
+                'previousClose': pClose,
+                'openPrice': response1['open'],
+                'lastPrice':lastPrice,
+                'pchange':response1['pChange'],
+                'dayHigh':response1['dayHigh'],
+                'dayLow':response1['dayLow'],
+                'high52': response1['high52'],
+                'low52': response1['low52']
+            })
+            return data
+            
         else:
-            print('out')
+            pass
+            
 nse = Nse()
 
 # data= nse.is_valid_index("banknifty")
 # print(data)
-print(nse.nse_index_quote('sbin'))
+print(nse.nse_stock_quote('hdsfc'))
+
