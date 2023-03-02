@@ -91,6 +91,7 @@ class Nse:
         return data
 
     def nse_stock_quote(self, symbol):
+
         if(self.is_valid_stock(symbol)):
 
             url='https://query1.finance.yahoo.com/v8/finance/chart/'+str(symbol).upper()+'.NS'
@@ -115,6 +116,7 @@ class Nse:
                 'high52': response1['high52'],
                 'low52': response1['low52']
             })
+            
             return data
             
         else:
