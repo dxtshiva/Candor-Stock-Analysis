@@ -61,8 +61,35 @@ class Nse:
     def is_valid_stock(self, symbol):
         return str(symbol).upper() in list(nse.nse_stock_code().SYMBOL)
 
+    def nse_top_gainers(self, clean_names=False):
+        url = "https://www1.nseindia.com/live_market/dynaContent/live_analysis/gainers/niftyGainers1.json"
+        data = pd.DataFrame(requests.get(url,headers=self.headers).json()['data'])
+        data.drop(columns=['series','netPrice','tradedQuantity','turnoverInLakhs','lastCorpAnnouncementDate','lastCorpAnnouncement'],inplace=True)
+        if(clean_names):
+            data.rename({'symbol': 'stock_code',
+                         'openPrice':'open_price', 
+                         'highPrice':'day_high', 
+                         'lowPrice':'day_low',
+                         'ltp':'last_traded_price',
+                         'previousPrice':'previous_trade_price'},
+                         axis = 'columns',inplace=True)
+        return data
+    
+    def nse_top_losers(self, clean_names=False):
+        url = "https://www1.nseindia.com/live_market/dynaContent/live_analysis/losers/niftyLosers1.json"
+        data = pd.DataFrame(requests.get(url,headers=self.headers).json()['data'])
+        data.drop(columns=['series','netPrice','tradedQuantity','turnoverInLakhs','lastCorpAnnouncementDate','lastCorpAnnouncement'],inplace=True)
+        if(clean_names):
+            data.rename({'symbol': 'stock_code',
+                         'openPrice':'open_price', 
+                         'highPrice':'day_high', 
+                         'lowPrice':'day_low',
+                         'ltp':'last_traded_price',
+                         'previousPrice':'previous_trade_price'},
+                         axis = 'columns',inplace=True)
+        return data
 nse = Nse()
 
 # data= nse.is_valid_index("banknifty")
 # print(data)
-print(nse.is_valid_stock("sbin"))
+print(nse.nse_top_losers('s'))
