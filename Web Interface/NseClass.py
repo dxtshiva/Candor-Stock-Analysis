@@ -91,7 +91,6 @@ class Nse:
 
     def nse_index_quote(self, symbol):
         if(self.is_valid_stock(symbol)):
-            print("in")
             url='https://www1.nseindia.com/live_market/dynaContent/live_watch/get_quote/GetQuote.jsp?'
             payloads= {"symbol":str(symbol).upper(),"series":"EQ"}
             data = requests.get(url,params = payloads,headers = self.headers).text
@@ -99,7 +98,6 @@ class Nse:
             index1  = data.find(',"optLink"')
             data = pd.DataFrame(json.loads(data[index+len('"data":'):index1]))
             return data[['symbol','companyName','lastPrice','pChange','dayHigh','dayLow','high52','low52','basePrice','open']]
-            # return data
         else:
             print('out')
 nse = Nse()
