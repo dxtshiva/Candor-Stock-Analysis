@@ -57,8 +57,12 @@ class Nse:
             return data
         # return(data[data.SYMBOL.isin([symbol.upper()])])
         return data[data['SYMBOL'].str.contains(symbol.upper())]
+    
+    def is_valid_stock(self, symbol):
+        return str(symbol).upper() in list(nse.nse_stock_code().SYMBOL)
+
 nse = Nse()
 
 # data= nse.is_valid_index("banknifty")
 # print(data)
-print(nse.nse_stock_code("sbi"))
+print(nse.is_valid_stock("sbin"))
