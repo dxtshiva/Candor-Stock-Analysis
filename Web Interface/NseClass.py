@@ -1,5 +1,6 @@
 import requests
 import pandas as pd
+from time import sleep
 import json
 
 class Nse:
@@ -110,21 +111,24 @@ class Nse:
                 'previousClose': pClose,
                 'openPrice': response1['open'],
                 'lastPrice':lastPrice,
-                'pchange':response1['pChange'],
+                'pchange':(lastPrice-float(response1['open']))/float(response1['open'])*100,
                 'dayHigh':response1['dayHigh'],
                 'dayLow':response1['dayLow'],
                 'high52': response1['high52'],
                 'low52': response1['low52']
             })
-            
+
             return data
             
         else:
             pass
-            
+
+
 nse = Nse()
 
 # data= nse.is_valid_index("banknifty")
 # print(data)
-print(nse.nse_stock_quote('hdsfc'))
+for i in range(100):
+    print(nse.nse_stock_quote('sbin'))
+    sleep(1)
 
