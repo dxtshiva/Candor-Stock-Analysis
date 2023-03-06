@@ -3,6 +3,24 @@ import pandas as pd
 from time import sleep
 import json
 
+class InvalidStockException(Exception):
+    def __init__(self, code_name):
+        self.code_name = code_name
+        self.message = f"Invalid stock code {code_name}"
+        super().__init__(self.message)
+
+class InvalidIndexException(Exception):
+    def __init__(self, code_name):
+        self.code_name = code_name
+        self.message = f"Invalid index {code_name}"
+        super().__init__(self.message)
+
+class InvalidCompanyException(Exception):
+    def __init__(self, symbol):
+        self.code_name = symbol
+        self.message = f"Invalid company name {symbol}"
+        super().__init__(self.message)
+
 class Nse:
 
     headers  = {'user-agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36',
@@ -27,7 +45,7 @@ class Nse:
 
         return data[name.upper()]
     
-    def nse_index_quote(self, clean_names = False):
+    def nse_index_data(self, clean_names = False):
 
         url = "https://www1.nseindia.com/homepage/Indices1.json" 
         response = requests.get(url,headers=self.headers).json()
@@ -43,11 +61,14 @@ class Nse:
         
         return data
 
-    def nse_index_data(self,symbol,clean_names=False):
-        dict  = self.nse_index_code()
-        name = list(filter(lambda x: dict[x] == symbol.upper(), dict))[0]
-        data = self.nse_index_quote(clean_names)
-        return data.loc[str(name).upper()]
+    def nse_index_quote(self,symbol,clean_names=False):
+        try:
+            dict  = self.nse_index_code()
+            name = list(filter(lambda x: dict[x] == symbol.upper(), dict))[0]
+            data = self.nse_index_quote(clean_names)
+            return data.loc[str(name).upper()]
+        except IndexError:
+            raise InvalidIndexException(symbol)
     
     def is_valid_index(self, symbol):
         return str(symbol).upper() in list(nse.nse_index_code().values())
@@ -58,7 +79,9 @@ class Nse:
         if symbol=='':
             return data
         # return(data[data.SYMBOL.isin([symbol.upper()])])
-        return data[data['SYMBOL'].str.contains(symbol.upper())]
+        val = data[data['SYMBOL'].str.contains(symbol.upper())]
+        if val.empty :
+            raise InvalidCompanyException(symbol)
     
     def is_valid_stock(self, symbol):
         return str(symbol).upper() in list(nse.nse_stock_code().SYMBOL)
@@ -121,7 +144,7 @@ class Nse:
             return data
             
         else:
-            pass
+            raise  InvalidStockException(symbol)
 
 
 nse = Nse()
@@ -129,6 +152,6 @@ nse = Nse()
 # data= nse.is_valid_index("banknifty")
 # print(data)
 for i in range(100):
-    print(nse.nse_stock_quote('sbin'))
+    print(nse.nse_stock_code('sbisn'))
     sleep(1)
 

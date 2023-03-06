@@ -39,12 +39,13 @@ for i,j in lis.items():
 @app.route("/",methods=['GET','POST'])
 def home():
     #Getting the index data
-    index_data = r_nse.nse_index_quote()
-    nifty50 = [str(i) for i in index_data[index_data['index_name'] == 'NIFTY 50' ].values[0]]
-    niftyit = [str(i) for i in index_data[index_data['index_name'] == 'NIFTY IT' ].values[0]]
-    niftybank = [str(i) for i in index_data[index_data['index_name'] == 'NIFTY BANK' ].values[0]]
-    niftymid = [str(i) for i in index_data[index_data['index_name'] == 'NIFTY MIDCAP 50' ].values[0]]
-    niftyfin = [str(i) for i in index_data[index_data['index_name'] == 'NIFTY FIN SERVICE' ].values[0]] 
+    # index_data = r_nse.nse_index_quote()
+    # nifty50 = [str(i) for i in index_data[index_data['index_name'] == 'NIFTY 50' ].values[0]]
+    # niftyit = [str(i) for i in index_data[index_data['index_name'] == 'NIFTY IT' ].values[0]]
+    # niftybank = [str(i) for i in index_data[index_data['index_name'] == 'NIFTY BANK' ].values[0]]
+    # niftymid = [str(i) for i in index_data[index_data['index_name'] == 'NIFTY MIDCAP 50' ].values[0]]
+    # niftyfin = [str(i) for i in index_data[index_data['index_name'] == 'NIFTY FIN SERVICE' ].values[0]] 
+    pass
 
     #Setting a method to check if user is searching for some stock code
     if request.method=='POST':
