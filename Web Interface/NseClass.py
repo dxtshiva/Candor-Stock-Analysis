@@ -26,7 +26,7 @@ class Nse:
     headers  = {'user-agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36',
            'accept-language': 'en,gu;q=0.9,hi;q=0.8', 'accept-encoding': 'gzip, deflate, br'}
     
-    def nse_index_code(self, name=""):
+    def nse_index_code(self, name: str=""):
         
         data = {'NIFTY 50': 'NIFTY', 'NIFTY50 DIV POINT': 'NIFTYDIVIDEND', 'NIFTY NEXT 50': 'JUNIOR', 'NIFTY100 LIQ 15': 'LIX15', 'INDIA VIX': 'INDIAVIX', 'NIFTY 100': 'CNX100', 
                 'NIFTY 500': 'CNX500', 'NIFTY MIDCAP 100': 'MIDCAP', 'NIFTY MIDCAP 50': 'NFTYMCAP50', 'NIFTY MID LIQ 15': 'NIFTYMIDLIQ15', 'NIFTY BANK': 'BANKNIFTY', 
@@ -45,7 +45,7 @@ class Nse:
 
         return data[name.upper()]
     
-    def nse_index_data(self, clean_names = False):
+    def nse_index_data(self, clean_names:bool = False):
 
         url = "https://www1.nseindia.com/homepage/Indices1.json" 
         response = requests.get(url,headers=self.headers).json()
@@ -61,13 +61,13 @@ class Nse:
         
         return data
 
-    def nse_index_quote(self,symbol,clean_names=False):
-        try:
+    def nse_index_quote(self,symbol,clean_names: bool =False):
+        if self.is_valid_index(symbol):
             dict  = self.nse_index_code()
             name = list(filter(lambda x: dict[x] == symbol.upper(), dict))[0]
             data = self.nse_index_quote(clean_names)
             return data.loc[str(name).upper()]
-        except IndexError:
+        else:
             raise InvalidIndexException(symbol)
     
     def is_valid_index(self, symbol):
@@ -86,7 +86,7 @@ class Nse:
     def is_valid_stock(self, symbol):
         return str(symbol).upper() in list(nse.nse_stock_code().SYMBOL)
 
-    def nse_top_gainers(self, clean_names=False):
+    def nse_top_gainers(self, clean_names: bool =False):
         url = "https://www1.nseindia.com/live_market/dynaContent/live_analysis/gainers/niftyGainers1.json"
         data = pd.DataFrame(requests.get(url,headers=self.headers).json()['data'])
         data.drop(columns=['series','netPrice','tradedQuantity','turnoverInLakhs','lastCorpAnnouncementDate','lastCorpAnnouncement'],inplace=True)
@@ -100,7 +100,7 @@ class Nse:
                          axis = 'columns',inplace=True)
         return data
     
-    def nse_top_losers(self, clean_names=False):
+    def nse_top_losers(self, clean_names: bool =False):
         url = "https://www1.nseindia.com/live_market/dynaContent/live_analysis/losers/niftyLosers1.json"
         data = pd.DataFrame(requests.get(url,headers=self.headers).json()['data'])
         data.drop(columns=['series','netPrice','tradedQuantity','turnoverInLakhs','lastCorpAnnouncementDate','lastCorpAnnouncement'],inplace=True)
@@ -146,12 +146,40 @@ class Nse:
         else:
             raise  InvalidStockException(symbol)
 
+    def nse_most_traded_stocks(self,clean_name=False):
+        
+        url = "https://www1.nseindia.com/products/dynaContent/equities/equities/json/mostActiveMonthly.json"
+        response = requests.get(url,headers=self.headers).json()
+        data = pd.DataFrame(response['data'])
+        if clean_name:
+            data.rename({
+                'security':'Company Name',
+                'sharetotal':'Percent trade',
+                'trdQty':'Trade Quantity'
+            })
+        return data
+
+    def nse_52week_low(self, clean_names=True):
+        url = 'https://www1.nseindia.com/products/dynaContent/equities/equities/json/online52NewLow.json'
+        response = pd.DataFrame(requests.get(url,headers=self.headers).json()['data'])
+        for symbols in response.symbol:
+            print(self.nse_stock_quote(symbols))
+        # for symbols in response.symbol:
+        #     data = self.nse_stock_quote(symbols)
+        #     print(data)
+
+            
+
+
 
 nse = Nse()
 
-# data= nse.is_valid_index("banknifty")
-# print(data)
-for i in range(100):
-    print(nse.nse_stock_code('sbisn'))
-    sleep(1)
+# data= pd.DataFrame(nse.nse_52week_low('pocl'))
+# print(data[['dt','value_old']])
+# print(nse.nse_stock_quote("A2ZINFRA"))
+
+# print(pd.DataFrame(nse.nse_52week_low()))
+# nse.nse_52week_low()
+
+nse.nse_stock_quote("ALKYLAMINE")
 
